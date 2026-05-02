@@ -219,3 +219,6 @@ __marimo__/
 
 # uv Package Manager
 uv.lock
+
+# Logs
+logs

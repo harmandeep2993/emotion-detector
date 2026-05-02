@@ -4,6 +4,9 @@ from src.detector import FaceDetector
 from src.emotion_analyzer import EmotionAnalyzer
 from src.utils import draw_face_box, draw_emotion_bars, draw_no_face, draw_fps, enhance_low_light
 
+from src.logger import EmotionLogger
+
+logger = EmotionLogger(log_path='logs/emotion_log.csv')
 
 def main():
     # initialise face detector and emotion analyzer
@@ -64,7 +67,8 @@ def main():
 
                 # run emotion analysis
                 last_emotion, last_confidence, last_all_probs = analyzer.analyze(face_roi)
-
+                logger.log(last_emotion, last_confidence)
+                
         # ── draw results on every frame ──
         if len(last_faces) > 0 and last_emotion is not None:
             x, y, w, h = last_faces[0]
@@ -75,6 +79,7 @@ def main():
             # draw probability bars
             if last_all_probs:
                 frame = draw_emotion_bars(frame, last_all_probs)
+            
         else:
             # no face detected
             frame = draw_no_face(frame)
