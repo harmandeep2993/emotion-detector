@@ -11,6 +11,7 @@ EMOTION_COLORS = {
     'Sad':      (255, 0, 0),      # blue
     'Surprise': (255, 0, 255),    # pink
     'Neutral':  (255, 255, 255),  # white
+    'Uncertain': (128, 128, 128), # gray
 }
 
 

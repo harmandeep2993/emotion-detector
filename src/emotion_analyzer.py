@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 from hsemotion.facial_emotions import HSEmotionRecognizer
 
-EMOTIONS = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+EMOTIONS = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral', 'Uncertain']
 
 
 class EmotionAnalyzer:
@@ -36,5 +36,8 @@ class EmotionAnalyzer:
             EMOTIONS[i]: round(float(scores[i]) * 100, 1)
             for i in range(len(EMOTIONS))
         }
+
+        if confidence < 45:
+            emotion = "Uncertain"
 
         return emotion, confidence, all_probs
