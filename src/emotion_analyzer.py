@@ -35,6 +35,7 @@ class EmotionAnalyzer:
         all_probs = {
             EMOTIONS[i]: round(float(scores[i]) * 100, 1)
             for i in range(len(EMOTIONS))
+            if EMOTIONS[i] != "Uncertain"
         }
 
         if confidence < 45:
