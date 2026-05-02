@@ -2,20 +2,21 @@ import cv2
 import time
 from src.detector import FaceDetector
 from src.emotion_analyzer import EmotionAnalyzer
-from src.utils import draw_face_box, draw_emotion_bars, draw_no_face, draw_fps
+from src.utils import draw_face_box, draw_emotion_bars, draw_no_face, draw_fps, enhance_low_light
 
 
 def main():
     # initialise face detector and emotion analyzer
     print("Loading models...")
-    detector = FaceDetector(cascade_path='models/haarcascade_frontalface_default.xml')
+    detector = FaceDetector()
     analyzer = EmotionAnalyzer(weights_path='models/fer_resnet18.pth')
     print("Models loaded. Starting webcam...")
 
     # open webcam
     # index 0 = default webcam
     # cv2.CAP_DSHOW = DirectShow backend — fixes most Windows webcam issues
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
@@ -51,6 +52,7 @@ def main():
 
         # ── run detection and analysis every 2nd frame ──
         if frame_count % 2 == 0:
+            frame = enhance_low_light(frame)
             last_faces = detector.detect(frame)
 
             if len(last_faces) > 0:
