@@ -1,3 +1,5 @@
+<div align='center'>
+
 # Real-Time Emotion Detector
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)
@@ -6,6 +8,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)
 
 Real-time facial emotion detection using OpenCV and EfficientNet. Detects faces via webcam and classifies 7 emotions with live confidence scores — running fully on CPU.
+</div>
 
 ## 🔍 How It Works
 
