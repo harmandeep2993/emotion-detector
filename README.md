@@ -1,6 +1,6 @@
-<div align='center'>
+<div align="center">
 
-# Real-Time Emotion Detector
+# 🎭 EmoDetector: Real-Time Emotion Detector
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?style=flat&logo=pytorch&logoColor=white)
@@ -11,21 +11,26 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)
 
 Real-time facial emotion detection system built with OpenCV, MediaPipe, and EfficientNet-B0. Detects faces via webcam and classifies 7 emotions with live confidence scores. Exposes a REST API containerised with Docker.
-</div>
 
-## 🎯 Problem Statement
-
-Understanding human emotional state traditionally requires human observation or self-reporting through surveys and focus groups which can be slow, expensive, and subject to bias.
-
-This system automates emotion detection passively from a camera feed. No input required from the person being observed. A camera captures their face, the system classifies their emotional state in real time, and returns a structured response — enabling applications in retail analytics, interactive displays, healthcare monitoring, and driver safety.
-
-
-
-## 📸 Demo
 ![Demo](assets/demo.gif)
 
+</div>
 
-## 🔍 How It Works
+## Problem Statement
+
+Understanding human emotional state traditionally requires human observation or self-reporting through surveys and focus groups, which can be slow, expensive, and subject to bias.
+
+This system automates emotion detection passively from a camera feed. No input is required from the person being observed. A camera captures their face, the system classifies their emotional state in real time, and returns a structured response, enabling applications in retail analytics, interactive displays, healthcare monitoring, and driver safety.
+
+## Demo
+
+`😠 Anger` `🤢 Disgust` `😨 Fear` `😊 Happy` `😢 Sad` `😲 Surprise` `😐 Neutral`
+
+![Happy](assets/happy.png)
+
+![Surprise](assets/surprise.png)
+
+## How It Works
 
 ```
 Webcam / Image
@@ -39,28 +44,19 @@ EfficientNet-B0 — classifies emotion (pretrained on AffectNet)
 Result — emotion label + confidence score + probability bars
 ```
 
-## ⚙️ Tech Stack
+## Tech Stack
 
-| | Component | Technology |
-|---|---|---|
-| 👁️ | Face Detection | MediaPipe BlazeFace |
-| 🧠 | Emotion Model | EfficientNet-B0 (AffectNet, 400k+ images) |
-| 🎥 | Video Processing | OpenCV 4.x |
-| 🔥 | Deep Learning | PyTorch 2.x |
-| 🚀 | REST API | FastAPI + Uvicorn |
-| 🐳 | Containerisation | Docker |
-| 📦 | Package Manager | uv |
+| Component | Technology |
+|---|---|
+| Face Detection | MediaPipe BlazeFace |
+| Emotion Model | EfficientNet-B0 (AffectNet, 400k+ images) |
+| Video Processing | OpenCV 4.x |
+| Deep Learning | PyTorch 2.x |
+| REST API | FastAPI + Uvicorn |
+| Containerisation | Docker |
+| Package Manager | uv |
 
-
-## 🎭 Emotions Detected
-
-`😠 Anger` `🤢 Disgust` `😨 Fear` `😊 Happy` `😢 Sad` `😲 Surprise` `😐 Neutral`
-
-![image](assets/happy.png)
-
-![image](assets/surprise.png)
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 emotion-detector/
@@ -80,49 +76,36 @@ emotion-detector/
 └── pyproject.toml
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Option 1 — Run webcam app locally
 
-Detects emotions in real time from your webcam. Displays bounding box, emotion label, confidence score, and probability bars on screen.
+Detects emotions in real time from your webcam. Displays a bounding box, emotion label, confidence score, and probability bars on screen.
 
 ```bash
 git clone https://github.com/harmandeep2993/facial-emotion-recognition.git
 cd facial-emotion-recognition
 
-# create and activate virtual environment
 uv venv
 .venv\Scripts\activate        # Windows
 source .venv/bin/activate     # Mac / Linux
 
-# install dependencies
 uv sync
 
-# run webcam app
 python app.py
 ```
 
 Press **Q** to quit.
 
----
-
 ### Option 2 — Run REST API locally
 
-Starts a FastAPI server. Send an image file and receive emotion JSON response. Useful for integrating with a frontend or another service.
+Starts a FastAPI server. Send an image file and receive an emotion JSON response.
 
 ```bash
-# same setup as above, then:
 uvicorn api.main:app --reload
 ```
 
-Open API docs at:
-```
-http://localhost:8000/docs
-```
-
-Upload any image via the Swagger UI and get emotion results back instantly.
-
----
+Open API docs at `http://localhost:8000/docs` and upload any image via the Swagger UI.
 
 ### Option 3 — Run API with Docker
 
@@ -133,19 +116,16 @@ docker pull harmandeep2993/emotion-detector
 docker run -p 8000:8000 harmandeep2993/emotion-detector
 ```
 
-API docs available at:
-```
-http://localhost:8000/docs
-```
+API docs available at `http://localhost:8000/docs`.
 
-## 📡 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/health` | Health check |
-| POST | `/analyze` | Upload image → get emotion JSON |
+| POST | `/analyze` | Upload image, get emotion JSON |
 
-### Example response
+### Example Response
 
 ```json
 {
@@ -164,19 +144,19 @@ http://localhost:8000/docs
 }
 ```
 
-## 🔧 Key Implementation Details
+## Key Implementation Details
 
-**Low-light enhancement** — CLAHE applied to each frame before detection improves face detection in dim conditions.
+**Low-light enhancement.** CLAHE is applied to each frame before detection to improve face detection in dim conditions.
 
-**Frame skipping** — emotion analysis runs every 2nd frame with result caching to maintain smooth display on CPU.
+**Frame skipping.** Emotion analysis runs every 2nd frame with result caching to maintain smooth display on CPU.
 
-**Confidence threshold** — predictions below 45% confidence are labelled "Uncertain" to avoid misleading results.
+**Confidence threshold.** Predictions below 45% confidence are labelled "Uncertain" to avoid misleading results.
 
-**Emotion logging** — detected emotions logged to CSV at 1-second intervals for downstream analysis.
+**Emotion logging.** Detected emotions are logged to CSV at 1-second intervals for downstream analysis.
 
-**PyTorch 2.6 compatibility** — patches `torch.load` for `weights_only` breaking change in PyTorch 2.6.
+**PyTorch 2.6 compatibility.** Patches `torch.load` for the `weights_only` breaking change introduced in PyTorch 2.6.
 
-## 📊 Performance
+## Performance
 
 | Hardware | FPS |
 |---|---|
@@ -184,33 +164,38 @@ http://localhost:8000/docs
 | CPU (i3) | 5–10 FPS |
 | GPU | 60+ FPS |
 
-## 🗺️ Roadmap
+## Limitations
 
-- ☑ Real-time webcam detection
-- ☑ MediaPipe BlazeFace face detection
-- ☑ EfficientNet-B0 emotion classification
-- ☑ Confidence threshold filtering
-- ☑ Low-light enhancement (CLAHE)
-- ☑ Emotion history logging to CSV
-- ☑ FastAPI REST endpoint
-- ☑ Docker containerisation
-- ☐ Multi-face support
-- ☐ WebSocket video streaming
-- ☐ Deploy to Hugging Face Spaces
+- Single face detection only, with no multi-face support yet implemented
+- Requires reasonable lighting, as performance degrades in very low light despite CLAHE enhancement
+- Model is trained on AffectNet and may underperform on faces not well represented in that dataset
+- No temporal smoothing, so the emotion label can flicker between frames on borderline predictions
+- Not validated for production or clinical use
 
-## 💡 Practical Implications
+## Roadmap
 
-This system is a production-ready proof of concept for any application that needs to understand human emotional state from a camera feed in real time.
+- [x] Real-time webcam detection
+- [x] MediaPipe BlazeFace face detection
+- [x] EfficientNet-B0 emotion classification
+- [x] Confidence threshold filtering
+- [x] Low-light enhancement (CLAHE)
+- [x] Emotion history logging to CSV
+- [x] FastAPI REST endpoint
+- [x] Docker containerisation
+- [ ] Multi-face support
+- [ ] WebSocket video streaming
+- [ ] Deploy to Hugging Face Spaces
 
-**Retail & Interactive Displays**: This can be deployed on a smart display, the system detects customer reactions to products and adapts content accordingly. This is the core use case for companies like Sensape who build intelligent digital touchpoints for retail environments.
+## Practical Applications
 
-**Driver Monitoring**: Combine with drowsiness detection, emotion classification can identify stressed or aggressive drivers before incidents occur. German automotive suppliers (Bosch, Continental) actively develop this technology.
+This system can serve as an integrable service for any application that needs to understand human emotional state from a camera feed. Retail environments can use it to measure customer reactions to products in real time. Driver monitoring systems can combine it with drowsiness detection to flag stressed or distracted drivers, which is an active area of development at German automotive suppliers like Bosch and Continental. In healthcare, it can monitor patients who cannot self-report pain or distress and flag changes for clinical staff automatically.
 
-**Healthcare**: Monitors patients who cannot self-report pain or distress — elderly care, ICU, and post-operative monitoring. Flags emotional state changes for clinical staff automatically.
+The REST API and Docker containerisation mean any frontend or application can send an image to `POST /analyze` and receive structured emotion data back, making it ready to plug into a larger product pipeline.
 
-**The REST API and Docker containerisation mean this is not just a demo but it is an integrable service.** Any frontend, display system, or application can send an image to POST /analyze and receive structured emotion data back. The system is ready to plug into a larger product pipeline.
+## License
 
+MIT © 2026 Harmandeep Singh
 
-## 👤 Author
+## Author
 
-**Harmandeep Singh** | Data Scientist & ML Engineer | &nbsp;·&nbsp; [GitHub](https://github.com/harmandeep2993) &nbsp;·&nbsp; [LinkedIn](https://linkedin.com/in/harmandeep/)
+**Harmandeep Singh** | Data Scientist & ML Engineer | [GitHub](https://github.com/harmandeep2993) · [LinkedIn](https://linkedin.com/in/harmandeep/)
