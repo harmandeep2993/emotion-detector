@@ -12,6 +12,8 @@
 
 Real-time facial emotion detection system built with OpenCV, MediaPipe, and EfficientNet-B0. Detects faces via webcam and classifies 7 emotions with live confidence scores. Exposes a REST API containerised with Docker.
 
+</div>
+
 ## 🔍 How It Works
 
 ```
@@ -37,6 +39,7 @@ Result — emotion label + confidence score + probability bars
 | 🚀 | REST API | FastAPI + Uvicorn |
 | 🐳 | Containerisation | Docker |
 | 📦 | Package Manager | uv |
+
 
 ## 🎭 Emotions Detected
 
@@ -64,20 +67,51 @@ emotion-detector/
 
 ## 🚀 Getting Started
 
-### Run webcam app locally
+### Option 1 — Run webcam app locally
+
+Detects emotions in real time from your webcam. Displays bounding box, emotion label, confidence score, and probability bars on screen.
 
 ```bash
 git clone https://github.com/harmandeep2993/facial-emotion-recognition.git
 cd facial-emotion-recognition
+
+# create and activate virtual environment
 uv venv
-.venv\Scripts\activate
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # Mac / Linux
+
+# install dependencies
 uv sync
+
+# run webcam app
 python app.py
 ```
 
 Press **Q** to quit.
 
-### Run API with Docker
+---
+
+### Option 2 — Run REST API locally
+
+Starts a FastAPI server. Send an image file and receive emotion JSON response. Useful for integrating with a frontend or another service.
+
+```bash
+# same setup as above, then:
+uvicorn api.main:app --reload
+```
+
+Open API docs at:
+```
+http://localhost:8000/docs
+```
+
+Upload any image via the Swagger UI and get emotion results back instantly.
+
+---
+
+### Option 3 — Run API with Docker
+
+No setup needed. One command pulls the image and starts the server.
 
 ```bash
 docker pull harmandeep2993/emotion-detector
@@ -137,18 +171,18 @@ http://localhost:8000/docs
 
 ## 🗺️ Roadmap
 
-- [x] Real-time webcam detection
-- [x] MediaPipe BlazeFace face detection
-- [x] EfficientNet-B0 emotion classification
-- [x] Confidence threshold filtering
-- [x] Low-light enhancement (CLAHE)
-- [x] Emotion history logging to CSV
-- [x] FastAPI REST endpoint
-- [x] Docker containerisation
-- [ ] Multi-face support
-- [ ] WebSocket video streaming
-- [ ] Deploy to Hugging Face Spaces
+- ☑ Real-time webcam detection
+- ☑ MediaPipe BlazeFace face detection
+- ☑ EfficientNet-B0 emotion classification
+- ☑ Confidence threshold filtering
+- ☑ Low-light enhancement (CLAHE)
+- ☑ Emotion history logging to CSV
+- ☑ FastAPI REST endpoint
+- ☑ Docker containerisation
+- ☐ Multi-face support
+- ☐ WebSocket video streaming
+- ☐ Deploy to Hugging Face Spaces
 
 ## 👤 Author
 
-**Harmandeep Singh** &nbsp;·&nbsp; [GitHub](https://github.com/harmandeep2993) &nbsp;·&nbsp; [LinkedIn](https://linkedin.com/in/yourprofile) &nbsp;·&nbsp; Leipzig, Germany
+**Harmandeep Singh** | Data Scientist & ML Engineer | &nbsp;·&nbsp; [GitHub](https://github.com/harmandeep2993) &nbsp;·&nbsp; [LinkedIn](https://linkedin.com/in/harmandeep/)
