@@ -146,15 +146,15 @@ API docs available at `http://localhost:8000/docs`.
 
 ## Key Implementation Details
 
-**Low-light enhancement.** CLAHE is applied to each frame before detection to improve face detection in dim conditions.
+**Low-light enhancement:** CLAHE is applied to each frame before detection to improve face detection in dim conditions.
 
-**Frame skipping.** Emotion analysis runs every 2nd frame with result caching to maintain smooth display on CPU.
+**Frame skipping:** Emotion analysis runs every 2nd frame with result caching to maintain smooth display on CPU.
 
-**Confidence threshold.** Predictions below 45% confidence are labelled "Uncertain" to avoid misleading results.
+**Confidence threshold:** Predictions below 45% confidence are labelled "Uncertain" to avoid misleading results.
 
-**Emotion logging.** Detected emotions are logged to CSV at 1-second intervals for downstream analysis.
+**Emotion logging:** Detected emotions are logged to CSV at 1-second intervals for downstream analysis.
 
-**PyTorch 2.6 compatibility.** Patches `torch.load` for the `weights_only` breaking change introduced in PyTorch 2.6.
+**PyTorch 2.6 compatibility:** Patches `torch.load` for the `weights_only` breaking change introduced in PyTorch 2.6.
 
 ## Performance
 
@@ -195,7 +195,3 @@ The REST API and Docker containerisation mean any frontend or application can se
 ## License
 
 MIT © 2026 Harmandeep Singh
-
-## Author
-
-**Harmandeep Singh** | Data Scientist & ML Engineer | [GitHub](https://github.com/harmandeep2993) · [LinkedIn](https://linkedin.com/in/harmandeep/)
