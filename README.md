@@ -11,8 +11,15 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)
 
 Real-time facial emotion detection system built with OpenCV, MediaPipe, and EfficientNet-B0. Detects faces via webcam and classifies 7 emotions with live confidence scores. Exposes a REST API containerised with Docker.
-
 </div>
+
+## 🎯 Problem Statement
+
+Understanding human emotional state traditionally requires human observation or self-reporting through surveys and focus groups which can be slow, expensive, and subject to bias.
+
+This system automates emotion detection passively from a camera feed. No input required from the person being observed. A camera captures their face, the system classifies their emotional state in real time, and returns a structured response — enabling applications in retail analytics, interactive displays, healthcare monitoring, and driver safety.
+
+
 
 ## 📸 Demo
 ![Demo](assets/demo.gif)
@@ -190,6 +197,19 @@ http://localhost:8000/docs
 - ☐ Multi-face support
 - ☐ WebSocket video streaming
 - ☐ Deploy to Hugging Face Spaces
+
+## 💡 Practical Implications
+
+This system is a production-ready proof of concept for any application that needs to understand human emotional state from a camera feed in real time.
+
+**Retail & Interactive Displays**: This can be deployed on a smart display, the system detects customer reactions to products and adapts content accordingly. This is the core use case for companies like Sensape who build intelligent digital touchpoints for retail environments.
+
+**Driver Monitoring**: Combine with drowsiness detection, emotion classification can identify stressed or aggressive drivers before incidents occur. German automotive suppliers (Bosch, Continental) actively develop this technology.
+
+**Healthcare**: Monitors patients who cannot self-report pain or distress — elderly care, ICU, and post-operative monitoring. Flags emotional state changes for clinical staff automatically.
+
+**The REST API and Docker containerisation mean this is not just a demo but it is an integrable service.** Any frontend, display system, or application can send an image to POST /analyze and receive structured emotion data back. The system is ready to plug into a larger product pipeline.
+
 
 ## 👤 Author
 
