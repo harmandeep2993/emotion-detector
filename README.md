@@ -15,8 +15,7 @@ Real-time facial emotion detection system built with OpenCV, MediaPipe, and Effi
 </div>
 
 ## 📸 Demo
-
-![Demo](assets\demo.gif)
+![Demo](assets/demo.gif)
 
 
 ## 🔍 How It Works
@@ -50,9 +49,9 @@ Result — emotion label + confidence score + probability bars
 
 `😠 Anger` `🤢 Disgust` `😨 Fear` `😊 Happy` `😢 Sad` `😲 Surprise` `😐 Neutral`
 
-![image](assets\happy.png)
+![image](assets/happy.png)
 
-![image](assets\surprise.png)
+![image](assets/surprise.png)
 
 ## 📁 Project Structure
 
