@@ -17,9 +17,11 @@ def main():
 
     # open webcam
     # index 0 = default webcam
+    # index 0 with CAP_DSHOW = external usb webcam
     # cv2.CAP_DSHOW = DirectShow backend — fixes most Windows webcam issues
     # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-    cap = cv2.VideoCapture(0)
+
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
