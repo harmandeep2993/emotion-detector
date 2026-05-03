@@ -2,48 +2,63 @@
 
 
 import cv2
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+import urllib.request
+import os
 
 
 class FaceDetector:
-    def __init__(self, cascade_path='models/haarcascade_frontalface_default.xml'):
-        # load the haar cascade from the xml file
-        self.face_cascade = cv2.CascadeClassifier(cascade_path)
+    def __init__(self, min_detection_confidence=0.6):
+        # download model if not present
+        model_path = 'models/blaze_face_short_range.tflite'
+        if not os.path.exists(model_path):
+            print("Downloading MediaPipe face detection model...")
+            urllib.request.urlretrieve(
+                'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite',
+                model_path
+            )
+            print("Downloaded.")
 
-        if self.face_cascade.empty():
-            raise ValueError(f"Failed to load cascade from {cascade_path}")
+        base_options = python.BaseOptions(model_asset_path=model_path)
+        options = vision.FaceDetectorOptions(
+            base_options=base_options,
+            min_detection_confidence=min_detection_confidence
+        )
+        self.detector = vision.FaceDetector.create_from_options(options)
 
     def detect(self, frame):
-        # convert frame to grayscale
-        # haar cascade works on grayscale images only
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # convert BGR to RGB
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # detect faces in the frame
-        # scaleFactor  — how much the image is scaled down each pass
-        #                1.1 means 10% reduction each time
-        # minNeighbors — how many overlapping detections needed to confirm a face
-        #                higher = fewer false positives
-        # minSize      — minimum face size to detect (pixels)
-        faces = self.face_cascade.detectMultiScale(
-            gray,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(48, 48)
+        # wrap in MediaPipe image format
+        mp_image = mp.Image(
+            image_format=mp.ImageFormat.SRGB,
+            data=rgb_frame
         )
 
-        # if no faces found — return empty list
-        if len(faces) == 0:
+        # run detection
+        results = self.detector.detect(mp_image)
+
+        if not results.detections:
             return []
+
+        faces = []
+        h, w = frame.shape[:2]
+
+        for detection in results.detections:
+            bbox = detection.bounding_box
+            x = max(0, bbox.origin_x)
+            y = max(0, bbox.origin_y)
+            fw = min(bbox.width, w - x)
+            fh = min(bbox.height, h - y)
+            faces.append((x, y, fw, fh))
 
         return faces
 
     def get_face_roi(self, frame, x, y, w, h):
-        # ROI = Region of Interest
-        # crop just the face from the full frame
-        # convert to grayscale for the emotion model
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         face_roi = gray[y:y+h, x:x+w]
-
-        # resize to 48x48 — the size FER2013 was trained on
         face_roi = cv2.resize(face_roi, (48, 48))
-
         return face_roi

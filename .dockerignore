@@ -1,0 +1,10 @@
+.venv
+.git
+__pycache__
+*.pyc
+logs/
+notebooks/
+README.md
+app.py
+tests/
+.gitignore

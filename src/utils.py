@@ -11,6 +11,7 @@ EMOTION_COLORS = {
     'Sad':      (255, 0, 0),      # blue
     'Surprise': (255, 0, 255),    # pink
     'Neutral':  (255, 255, 255),  # white
+    'Uncertain': (128, 128, 128), # gray
 }
 
 
@@ -152,3 +153,19 @@ def draw_fps(frame, fps):
         cv2.LINE_AA
     )
     return frame
+
+
+def enhance_low_light(frame):
+    # convert to LAB colour space
+    lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+
+    # apply CLAHE — Contrast Limited Adaptive Histogram Equalisation
+    # boosts local contrast without overexposing bright areas
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
+    l = clahe.apply(l)
+
+    # merge back and convert to BGR
+    enhanced = cv2.merge([l, a, b])
+    enhanced = cv2.cvtColor(enhanced, cv2.COLOR_LAB2BGR)
+    return enhanced
